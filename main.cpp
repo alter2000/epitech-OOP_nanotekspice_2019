@@ -5,3 +5,7 @@
 ** automated desc ftw
 */
 
+int main(int c, const char **v)
+{
+    
+}
