@@ -33,11 +33,7 @@ void loop(nts::ctls cs)
 
 int main(int c, const char **v)
 {
-    if (c == 1) {
-        std::cerr << "need a circuit file" << std::endl;
-        return 84;
-    }
-    nts::ctls cs = nts::parse(v);
+    nts::ctls cs = nts::parse(c, v);
     try {
         loop(cs);
     } catch (const std::exception& e) {
