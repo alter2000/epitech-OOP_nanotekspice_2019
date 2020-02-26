@@ -8,25 +8,8 @@
 #include <algorithm>
 #include "Entrypoint.hpp"
 
-static void checkLast(const nts::ctls& cs)
-{
-    // TODO:
-    // find `any`:
-    // unlinked element
-    // unknown input
-    // name error
-}
-
 namespace nts
 {
-    ctls parse(const char** path)
-    {
-        ctls cs;
-        // TODO: all
-        checkLast(cs);
-        return cs;
-    }
-
     void display(ctls& cs)
     {
         ctls os;

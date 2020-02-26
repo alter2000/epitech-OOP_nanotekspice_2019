@@ -14,7 +14,7 @@
 
 namespace nts
 {
-    ctls parse(const char** path);
+    ctls parse(int c, const char** v);
     void display(const ctls& cs);
     void setInput(const ctls& cs, const std::string& in);
     TriState toState(const std::string& v);
