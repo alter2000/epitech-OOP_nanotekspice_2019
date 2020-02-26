@@ -16,158 +16,123 @@ namespace nts
     {
         public:
             virtual ~Primitive() {}
-            virtual nts::TriState get() const { return nts::UNDEFINED; };
+            virtual TriState get() const { return UNDEFINED; };
     };
 
     class Not : public Primitive
     {
         public:
-            Not(nts::TriState a) : a{a} {}
+            Not(TriState a) : a{a} {}
             Not(Primitive a) : a{a.get()} {}
-            nts::TriState operator()() const
-            {
-                switch (a) {
-                    case nts::UNDEFINED: return nts::UNDEFINED;
-                    case nts::TRUE:      return nts::FALSE;
-                    case nts::FALSE:     return nts::TRUE;
-                }
-            }
-            nts::TriState get() const { return a; }
+            ~Not() {}
+            TriState operator()() const;
+            TriState get() const { return a; }
         private:
-            nts::TriState a;
+            TriState a;
     };
 
     class And : public Primitive
     {
         public:
-            And(nts::TriState a, nts::TriState b) : a{a}, b{b} {}
-            And(nts::TriState a, Primitive b) : a{a}, b{b.get()} {}
-            And(Primitive a, nts::TriState b) : a{a.get()}, b{b} {}
+            And(TriState a, TriState b) : a{a}, b{b} {}
+            And(TriState a, Primitive b) : a{a}, b{b.get()} {}
+            And(Primitive a, TriState b) : a{a.get()}, b{b} {}
             And(Primitive a, Primitive b) : a{a.get()}, b{b.get()} {}
-            nts::TriState operator()(nts::TriState a, nts::TriState b) const
-            {
-                if (a == nts::UNDEFINED || b == nts::UNDEFINED)
-                    return nts::UNDEFINED;
-                return (a == b) ? nts::TRUE : nts::FALSE;
-            }
-            nts::TriState get() const { return this->operator()(a, b); }
+            ~And() {}
+            TriState operator()(TriState a, TriState b) const;
+            TriState get() const { return this->operator()(a, b); }
         private:
-            nts::TriState a;
-            nts::TriState b;
+            TriState a;
+            TriState b;
     };
 
     class NAnd : public Primitive
     {
         public:
-            NAnd(nts::TriState a, nts::TriState b) : a{a}, b{b} {}
-            NAnd(nts::TriState a, Primitive b) : a{a}, b{b.get()} {}
-            NAnd(Primitive a, nts::TriState b) : a{a.get()}, b{b} {}
+            NAnd(TriState a, TriState b) : a{a}, b{b} {}
+            NAnd(TriState a, Primitive b) : a{a}, b{b.get()} {}
+            NAnd(Primitive a, TriState b) : a{a.get()}, b{b} {}
             NAnd(Primitive a, Primitive b) : a{a.get()}, b{b.get()} {}
-            nts::TriState operator()(nts::TriState a, nts::TriState b) const
-            {
-                if (a == nts::UNDEFINED || b == nts::UNDEFINED)
-                    return nts::UNDEFINED;
-                return Not(And(a, b)).get();
-            }
-            nts::TriState get() const { return this->operator()(a, b); }
+            ~NAnd() {}
+            TriState get() const { return this->operator()(a, b); }
+            TriState operator()(TriState a, TriState b) const;
         private:
-            nts::TriState a;
-            nts::TriState b;
+            TriState a;
+            TriState b;
     };
 
     class Or : public Primitive
     {
         public:
-            Or(nts::TriState a, nts::TriState b) : a{a}, b{b} {}
-            Or(nts::TriState a, Primitive b) : a{a}, b{b.get()} {}
-            Or(Primitive a, nts::TriState b) : a{a.get()}, b{b} {}
+            Or(TriState a, TriState b) : a{a}, b{b} {}
+            Or(TriState a, Primitive b) : a{a}, b{b.get()} {}
+            Or(Primitive a, TriState b) : a{a.get()}, b{b} {}
             Or(Primitive a, Primitive b) : a{a.get()}, b{b.get()} {}
-            nts::TriState operator()(nts::TriState a, nts::TriState b) const
-            {
-                if (a == nts::UNDEFINED || b == nts::UNDEFINED)
-                    return nts::UNDEFINED;
-                return (a == nts::TRUE || b == nts::TRUE) ? nts::TRUE : nts::FALSE;
-            }
-            nts::TriState get() const { return this->operator()(a, b); }
+            ~Or() {}
+            TriState get() const { return this->operator()(a, b); }
+            TriState operator()(TriState a, TriState b) const;
         private:
-            nts::TriState a;
-            nts::TriState b;
+            TriState a;
+            TriState b;
     };
 
     class NOr : public Primitive
     {
         public:
-            NOr(nts::TriState a, nts::TriState b) : a{a}, b{b} {}
-            NOr(nts::TriState a, Primitive b) : a{a}, b{b.get()} {}
-            NOr(Primitive a, nts::TriState b) : a{a.get()}, b{b} {}
+            NOr(TriState a, TriState b) : a{a}, b{b} {}
+            NOr(TriState a, Primitive b) : a{a}, b{b.get()} {}
+            NOr(Primitive a, TriState b) : a{a.get()}, b{b} {}
             NOr(Primitive a, Primitive b) : a{a.get()}, b{b.get()} {}
-            nts::TriState operator()(nts::TriState a, nts::TriState b) const
-            {
-                if (a == nts::UNDEFINED || b == nts::UNDEFINED)
-                    return nts::UNDEFINED;
-                return Not(Or(a, b)).get();
-            }
-            nts::TriState get() const { return this->operator()(a, b); }
+            ~NOr() {}
+            TriState get() const { return this->operator()(a, b); }
+            TriState operator()(TriState a, TriState b) const;
         private:
-            nts::TriState a;
-            nts::TriState b;
+            TriState a;
+            TriState b;
     };
 
     class XOr : public Primitive
     {
         public:
-            XOr(nts::TriState a, nts::TriState b) : a{a}, b{b} {}
-            XOr(nts::TriState a, Primitive b) : a{a}, b{b.get()} {}
-            XOr(Primitive a, nts::TriState b) : a{a.get()}, b{b} {}
+            XOr(TriState a, TriState b) : a{a}, b{b} {}
+            XOr(TriState a, Primitive b) : a{a}, b{b.get()} {}
+            XOr(Primitive a, TriState b) : a{a.get()}, b{b} {}
             XOr(Primitive a, Primitive b) : a{a.get()}, b{b.get()} {}
-            nts::TriState operator()(nts::TriState a, nts::TriState b) const
-            {
-                if (a == nts::UNDEFINED || b == nts::UNDEFINED)
-                    return nts::UNDEFINED;
-                return (a == b) ? nts::FALSE : nts::TRUE;
-            }
-            nts::TriState get() const { return this->operator()(a, b); }
+            ~XOr() {}
+            TriState get() const { return this->operator()(a, b); }
+            TriState operator()(TriState a, TriState b) const;
         private:
-            nts::TriState a;
-            nts::TriState b;
+            TriState a;
+            TriState b;
     };
 
-    class True : public Primitive
+    class True : public Primitive, public IComponent
     {
         public:
-            nts::TriState operator()() const { return nts::TRUE; }
-            nts::TriState get() const { return this->operator()(); }
+            True() {}
+            ~True() {}
+            TriState get() const { return this->operator()(); }
+            TriState operator()() const { return TRUE; }
     };
 
-    class False : public Primitive
+    class False : public Primitive, public IComponent
     {
         public:
-            nts::TriState operator()() const { return nts::FALSE; }
-            nts::TriState get() const { return this->operator()(); }
+            False() {}
+            ~False() {}
+            TriState get() const { return this->operator()(); }
+            TriState operator()() const { return FALSE; }
     };
 
-    class Clock : public Primitive
+    class Clock : public Primitive, public IComponent
     {
         public:
-            nts::TriState operator()()
-            {
-                nts::TriState r;
-
-                switch (a) {
-                    case nts::TRUE:
-                        r = a;
-                        a = nts::FALSE;
-                    case nts::FALSE:
-                        r = a;
-                        a = nts::TRUE;
-                    case nts::UNDEFINED:
-                        return a;
-                }
-                return r;
-            }
-            nts::TriState get() const { return a; }
+            Clock() :a{FALSE} {}
+            ~Clock() {}
+            TriState get() const { return a; }
+            TriState operator()();
         private:
-            nts::TriState a;
+            TriState a;
     };
 }
 
