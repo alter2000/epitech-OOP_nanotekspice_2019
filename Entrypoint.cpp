@@ -32,7 +32,7 @@ namespace nts
         ctls os;
         for (auto i = cs.begin(); i < cs.end(); ++i)
             if ((*i)->Type() == "out") {
-                // TODO: wadduhek
+                // TODO: wadduhek y u no werk
                 os.push_back(std::make_unique<IComponent>(i->release()));
             }
         std::sort(os.begin(), os.end(), [](const ct& a, const ct& b)
@@ -70,7 +70,16 @@ namespace nts
             case 0: return FALSE;
             case 1: return TRUE;
             default:
-                    throw ComponentError(std::string("Input value is unknown: " ) + std::to_string(v));
+                throw ComponentError(std::string("Input value is unknown: " ) + std::to_string(v));
+        }
+    }
+
+    std::string fromState(TriState a)
+    {
+        switch (a) {
+            case TRUE:      return "T";
+            case FALSE:     return "F";
+            case UNDEFINED: return "U";
         }
     }
 }

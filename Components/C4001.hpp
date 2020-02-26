@@ -8,22 +8,29 @@
 #ifndef C4001_H_
 #define C4001_H_
 
-#include "ILinks.hpp"
-#include "IComponent.hpp"
 #include <string>
 #include <vector>
+#include "../Primitives.hpp"
+#include "../IComponent.hpp"
 
-class C4001 : public nts::IComponent
+namespace nts
 {
-public:
-    C4001(const std::string &name);
-    ~C4001() {};
-    virtual nts::Tristate Compute(size_t pin_num_this = 1);
-    virtual void SetLink(size_t pin_num_this, nts::IComponent &component, size_t pin_num_target);
-    virtual void Dump(void) const;
-private:
-    std::string _name;
-    std::vector<ILinks *> _link;
-};
+    class C4001 : public nts::IComponent
+    {
+        public:
+            C4001(const std::string &name);
+            ~C4001() {};
+            nts::TriState compute(size_t pin = 1);
+            void setLink(std::size_t pin, IComponent &component, std::size_t target);
+            void dump(void) const;
+            void _setIn(nts::TriState a);
+            ctName Name() const;
+            ctType Type() const;
+        private:
+            const std::string _type;
+            ctName _name;
+            ctls _link;
+    };
+}
 
 #endif /* C4001_H_ */

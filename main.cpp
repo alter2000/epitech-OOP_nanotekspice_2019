@@ -15,6 +15,7 @@ void loop(nts::ctls cs)
     std::cin >> in;
 
     while (true) {
+        std::cout << "> ";
         if (in.find("=") != std::string::npos)
             setInput(cs, in);
         if (in == "display")
@@ -23,7 +24,7 @@ void loop(nts::ctls cs)
             for (auto i = cs.begin(); i < cs.end(); ++i)
                 (*i)->dump();
         if (in == "loop") {
-            // register for SIGINT
+            // TODO: register for SIGINT
         }
         if (in == "exit")
             break;

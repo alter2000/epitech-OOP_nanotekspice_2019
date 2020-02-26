@@ -6,38 +6,45 @@
 //
 
 #include <iostream>
-#include "NorLink.hpp"
-#include "SimpleLink.hpp"
+#include "../Primitives.hpp"
+#include "../Errors.hpp"
 #include "C4001.hpp"
 
-C4001::C4001(const std::string &name)
-:	_name(name), _link(std::vector<ILinks *> (14, NULL))
+namespace nts
 {
-    this->_link.at(2) = new NorLink(this, 1, this, 2);
-    this->_link.at(3) = new NorLink(this, 5, this, 6);
-    this->_link.at(9) = new NorLink(this, 8, this, 9);
-    this->_link.at(10) = new NorLink(this, 12, this, 13);
-}
+    C4001::C4001(const std::string &name)
+        :	_name{name}, _link{ctls{14, nullptr}}
+    {
+        _link.at(2)  = new NOr(this, 1, this, 2);
+        _link.at(3)  = new NOr(this, 5, this, 6);
+        _link.at(9)  = new NOr(this, 8, this, 9);
+        _link.at(10) = new NOr(this, 12, this, 13);
+    }
 
-nts::Tristate C4001::Compute(size_t pin_num_this)
-{
-    if ((pin_num_this > 0 && pin_num_this < 15) && this->_link[pin_num_this - 1])
-	return (this->_link[pin_num_this - 1]->compute());
-    return (nts::UNDEFINED);
-}
+    TriState C4001::compute(size_t cur)
+    {
+        if (cur < 1 || cur > 13)
+            throw PinError("Pin does not exist: " + std::to_string(cur));
+        return (_link[cur - 1]) ? _link[cur - 1]->compute() : UNDEFINED;
+    }
 
-void	C4001::SetLink(size_t pin_num_this, nts::IComponent &component, size_t pin_num_target)
-{
-    if (pin_num_this == 1 || pin_num_this == 2 
-	|| pin_num_this == 5 || pin_num_this == 6 
-	|| pin_num_this == 8 || pin_num_this == 9 
-	|| pin_num_this == 12 || pin_num_this == 13)
-	this->_link.at(pin_num_this - 1) = new SimpleLink(&component, pin_num_target);
-    else if (pin_num_this == 3 || pin_num_this == 4 || pin_num_this == 10 || pin_num_this == 11)
-	component.SetLink(pin_num_target, *this, pin_num_this);
-}
+    void C4001::setLink(size_t pin, IComponent &component, size_t target)
+    {
+        switch (pin) {
+            case 1: case 2: case 5:  case 6:
+            case 8: case 9: case 12: case 13:
+                _link.at(pin - 1) = new SimpleLink(&component, target);
+                return;
+            case 3: case 4: case 10: case 11:
+                component.setLink(target, *this, pin);
+                return;
+            default: return;
+        }
+    }
 
-void	C4001::Dump() const
-{
-    std::cout << "4001: " << this->_name << std::endl;
+    void C4001::dump() const
+    {
+        // TODO: dump all values too?
+        std::cout << "4001: " << _name << std::endl;
+    }
 }
