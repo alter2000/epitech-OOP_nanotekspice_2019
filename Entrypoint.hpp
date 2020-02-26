@@ -14,8 +14,6 @@
 
 namespace nts
 {
-    using ctls = std::vector<ct>;
-
     ctls parse(const char** path);
     void display(const ctls& cs);
     void setInput(const ctls& cs, const std::string& in);

@@ -19,6 +19,9 @@ namespace nts
         FALSE = false,
     };
 
+    using ctName = const std::string&;
+    using ctType = const std::string&;
+
     class IComponent
     {
         public:
@@ -27,12 +30,13 @@ namespace nts
             virtual nts::TriState compute(std::size_t pin = 1) = 0;
             virtual void setLink(std::size_t pin, nts::IComponent& other, std::size_t otherPin) = 0;
             virtual void dump() const = 0;
-            virtual std::string Name() const = 0;
             virtual void _setIn(nts::TriState a) = 0;
-            virtual std::string Type() const = 0;
+            virtual ctName Name() const = 0;
+            virtual ctType Type() const = 0;
     };
 
     using ct = std::unique_ptr<IComponent>;
+    using ctls = std::vector<ct>;
 }
 
 #endif

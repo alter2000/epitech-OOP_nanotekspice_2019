@@ -27,9 +27,18 @@ namespace nts
         return cs;
     }
 
-    void display(const ctls& cs)
+    void display(ctls& cs)
     {
-        // TODO: find all outputs and make sorted linear<uptr> out of them
+        ctls os;
+        for (auto i = cs.begin(); i < cs.end(); ++i)
+            if ((*i)->Type() == "out") {
+                // TODO: wadduhek
+                os.push_back(std::make_unique<IComponent>(i->release()));
+            }
+        std::sort(os.begin(), os.end(), [](const ct& a, const ct& b)
+            { return a->Name() < b->Name(); });
+        for (auto& i : os)
+            i->dump();
     }
 
     void setInput(const ctls& cs, const std::string& in)
