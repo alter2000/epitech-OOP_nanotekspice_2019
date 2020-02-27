@@ -7,20 +7,43 @@
 
 #include <fstream>
 #include "Entrypoint.hpp"
+#include "Errors.hpp"
+#include "Components/Components.hpp"
 
-static void checkLast(const nts::ctls& cs)
+static void checkOutput(const nts::IComponent& i)
+{
+    if (std::static_cast<nts::Output*>(i).getLinks().length() == 0)
+        throw nts::PinError("Output has no links: " + i.Name());
+}
+
+static void checkInputs(const nts::ctls& cs, int c, const char** v)
+{
+    for (auto& i : cs) {
+        if (std::static_cast<nts::Input*>(i)->getLinks().length() == 0) {
+            throw nts::PinError("Input has no links: " + i->Name());
+        }
+    }
+}
+
+static void checkLast(const nts::ctls& cs, int c, const char **v)
 {
     // TODO:
     // find `any`:
     // unlinked element
     // unknown input
     // name error
+    for (auto&& i : cs) {
+        nts::ctType it = i->Type();
+        if (it == "out")
+            checkOutput(*i.get());
+    }
+    checkInputs(cs, c, v);
 }
 
 static bool getCleanLine(std::ifstream& fs, std::string& tmp)
 {
     if (fs.bad())
-        throw std::ifstream::failure("Error reading");
+        throw std::ifstream::failure("Error reading file.");
     fs >> tmp;
     tmp = tmp.substr(0, tmp.find("#"));
     return tmp == "";
@@ -37,8 +60,7 @@ static nts::ctls parseChipsets(std::ifstream& fs)
 }
 
 namespace nts {
-        // TODO:
-        // find `any`:
+        // TODO: find `any`:
         // SyntaxError
         // PinError (from ::setLink)
         // NameError (from ::setLink)
@@ -72,7 +94,7 @@ namespace nts {
             throw SyntaxError("No `.chipsets` section.");
         if (!links)
             throw SyntaxError("No `.links` section.");
-        checkLast(cs);
+        checkLast(cs, c, v);
         return cs;
     }
 }

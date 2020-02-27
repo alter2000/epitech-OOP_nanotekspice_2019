@@ -2,11 +2,11 @@
 // EPITECH PROJECT, 2020
 // EPITECH 2020
 // File description:
-// C4001 hpp file
+// Input hpp file
 //
 
-#ifndef C4001_H_
-#define C4001_H_
+#ifndef INPUT_H_
+#define INPUT_H_
 
 #include <string>
 #include <vector>
@@ -15,15 +15,15 @@
 
 namespace nts
 {
-    class C4001 : public IComponent
+    class Input : public IComponent
     {
         public:
-            C4001(const std::string &name);
-            ~C4001() {};
-            nts::TriState compute(size_t pin = 1);
+            Input(const std::string &name);
+            ~Input() {};
+            TriState compute(size_t pin = 1);
             void setLink(std::size_t pin, IComponent &component, std::size_t target);
             void dump(void) const;
-            void _setIn(nts::TriState a);
+            void _setIn(TriState a);
             ctName Name() const;
             ctType Type() const;
         private:
@@ -33,4 +33,4 @@ namespace nts
     };
 }
 
-#endif /* C4001_H_ */
+#endif /* INPUT_H_ */

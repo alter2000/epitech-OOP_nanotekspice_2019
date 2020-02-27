@@ -15,8 +15,7 @@ namespace nts
         ctls os;
         for (auto i = cs.begin(); i < cs.end(); ++i)
             if ((*i)->Type() == "out") {
-                // TODO: wadduhek y u no werk
-                os.push_back(std::make_unique<IComponent>(i->release()));
+                os.push_back(std::move(*i));
             }
         std::sort(os.begin(), os.end(), [](const ct& a, const ct& b)
             { return a->Name() < b->Name(); });
