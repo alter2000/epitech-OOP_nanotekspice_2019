@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <memory>
+#include <vector>
 
 namespace nts
 {
@@ -22,7 +23,7 @@ namespace nts
     class IComponent;
     using ctName = const std::string&;
     using ctType = const std::string&;
-    using ct = std::unique_ptr<IComponent>;
+    using ct = std::shared_ptr<IComponent>;
     using ctls = std::vector<ct>;
 
     class IComponent

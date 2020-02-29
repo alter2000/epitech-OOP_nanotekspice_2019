@@ -109,29 +109,34 @@ namespace nts
     class True : public Primitive, public IComponent
     {
         public:
-            True() {}
+            True(ctName n) : n{n} {}
             ~True() {}
             TriState get() const { return this->operator()(); }
             TriState operator()() const { return TRUE; }
+        private:
+            const std::string n;
     };
 
     class False : public Primitive, public IComponent
     {
         public:
-            False() {}
+            False(ctName n) : n{n} {}
             ~False() {}
             TriState get() const { return this->operator()(); }
             TriState operator()() const { return FALSE; }
+        private:
+            const std::string n;
     };
 
     class Clock : public Primitive, public IComponent
     {
         public:
-            Clock() :a{FALSE} {}
+            Clock(ctName n) : n{n}, a{FALSE} {}
             ~Clock() {}
             TriState get() const { return a; }
             TriState operator()();
         private:
+            const std::string n;
             TriState a;
     };
 }

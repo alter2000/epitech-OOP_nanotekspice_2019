@@ -13,12 +13,12 @@
 namespace nts
 {
     C4001::C4001(const std::string &name)
-        :	_name{name}, _link{ctls{14, nullptr}}
+        :	_name{name}, _link{std::vector<std::shared_ptr<Primitive>>{14, nullptr}}
     {
-        _link.at(2)  = new NOr(this, 1, this, 2);
-        _link.at(3)  = new NOr(this, 5, this, 6);
-        _link.at(9)  = new NOr(this, 8, this, 9);
-        _link.at(10) = new NOr(this, 12, this, 13);
+        _link.at(2)  = std::shared_ptr<Primitive>(new NOr(nts::UNDEFINED, nts::UNDEFINED));
+        _link.at(3)  = std::shared_ptr<Primitive>(new NOr(nts::UNDEFINED, nts::UNDEFINED));
+        _link.at(9)  = std::shared_ptr<Primitive>(new NOr(nts::UNDEFINED, nts::UNDEFINED));
+        _link.at(10) = std::shared_ptr<Primitive>(new NOr(nts::UNDEFINED, nts::UNDEFINED));
     }
 
     TriState C4001::compute(size_t cur)
@@ -46,5 +46,11 @@ namespace nts
     {
         // TODO: dump all values too?
         std::cout << "4001: " << _name << std::endl;
+    }
+
+    ctls C4001::getLinks() const
+    {
+        // TODO: Valton
+        return ctls{};
     }
 }

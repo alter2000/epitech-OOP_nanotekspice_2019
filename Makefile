@@ -5,8 +5,7 @@
 ## automated desc ftw
 ##
 
-SRC = \
-	  ./main.cpp \
+SRC = $(shell find . -type f -name "*.cpp")
 
 DFLAGS = \
 		 -fsanitize=address \
@@ -26,6 +25,9 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(CPL) -o $(NAME) $(OBJ) $(LDFLAGS)
+
+debug: $(SRC)
+	$(CPL) -o $(NAME) $(SRC) $(LDFLAGS)
 
 clean:
 	$(foreach var, $(OBJ), if [ -e $(var) ] ; then rm -f $(var) ; fi;)

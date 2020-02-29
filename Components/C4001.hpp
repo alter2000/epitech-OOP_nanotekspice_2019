@@ -22,6 +22,7 @@ namespace nts
             ~C4001() {};
             nts::TriState compute(size_t pin = 1);
             void setLink(std::size_t pin, IComponent &component, std::size_t target);
+            ctls getLinks() const;
             void dump(void) const;
             void _setIn(nts::TriState a);
             ctName Name() const;
@@ -29,7 +30,7 @@ namespace nts
         private:
             const std::string _type;
             ctName _name;
-            ctls _link;
+            std::vector<std::shared_ptr<Primitive>> _link;
     };
 }
 

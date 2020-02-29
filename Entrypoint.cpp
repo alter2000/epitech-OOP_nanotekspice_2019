@@ -63,5 +63,6 @@ namespace nts
             case FALSE:     return "F";
             case UNDEFINED: return "U";
         }
+        return "U";
     }
 }

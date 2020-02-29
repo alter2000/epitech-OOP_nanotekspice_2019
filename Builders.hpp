@@ -13,7 +13,7 @@
 
 namespace nts
 {
-    auto mkComponent(ctType t, ctName n) -> decltype([](){ return ct{nullptr}; });
+    std::function<ct(ctName)> mkComponent(ctType t);
 }
 
 #endif

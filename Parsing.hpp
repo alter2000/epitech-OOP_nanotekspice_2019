@@ -22,8 +22,8 @@ namespace nts
             const int c;
             const char **v;
             nts::ctls parseChipsets(std::ifstream& fs);
-            void parseLinks(nts::ctls cs);
-            bool getCleanLine(std::ifstream& fs, std::string& tmp);
+            void parseLinks(const nts::ctls& cs, std::ifstream& fs, int c, const char** v);
+            bool getCleanTok(std::ifstream& fs, std::string& tmp);
             void checkLast(const nts::ctls& cs, int c, const char **v);
             void checkInputs(const nts::ctls& cs, int c, const char** v);
             void checkOutput(const nts::IComponent& i);

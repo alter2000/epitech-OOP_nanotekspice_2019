@@ -16,6 +16,7 @@ namespace nts
             case TRUE:      return FALSE;
             case FALSE:     return TRUE;
         }
+        return UNDEFINED;
     }
 
     TriState Clock::operator()()

@@ -6,9 +6,10 @@
 */
 
 #include <fstream>
-#include "Parsing.hpp"
+#include <regex>
 #include "Errors.hpp"
-#include "Components/Components.hpp"
+#include "Builders.hpp"
+#include "Parsing.hpp"
 
 namespace nts
 {
@@ -27,17 +28,22 @@ namespace nts
             throw std::ifstream::failure("can't open" + std::string(v[1]));
         ctls cs{parseChipsets(fs)};
 
-        parseLinks(cs);
+        parseLinks(cs, fs, c, v);
         checkLast(cs, c, v);
         return cs;
     }
 
-    bool Parser::getCleanLine(std::ifstream& fs, std::string& tmp)
+    bool Parser::getCleanTok(std::ifstream& fs, std::string& tmp)
     {
         if (fs.bad())
             throw std::ifstream::failure("Error reading file.");
+        tmp.clear();
         fs >> tmp;
         tmp = tmp.substr(0, tmp.find("#"));
+        // trim spaces
+        std::regex_replace(std::regex_replace(tmp,
+                           std::regex("^\\s+") , ""),
+                           std::regex("\\s+$"), "");
         return tmp == "";
     }
 
@@ -60,24 +66,53 @@ namespace nts
     {
         // TODO:
         // find `any`:
-        // unlinked element
-        // unknown input
-        // name error
-        for (auto&& i : cs) {
+        // unlinked element#
+        // unknown input#
+        // name error#
+        for (const auto& i : cs) {
             nts::ctType it = i->Type();
             if (it == "out")
                 checkOutput(*i.get());
         }
         checkInputs(cs, c, v);
+        std::function<std::string()> pAllDups = [&cs] {
+            ctls dups{};
+            for (auto i = cs.begin(); i != cs.end(); ++i) {
+                std::copy_if(cs.begin()
+                        , cs.end()
+                        , dups.begin()
+                        , [i] (ct a) { return (*i)->Name() == a->Name(); });
+            }
+
+            std::string all{""};
+            for (auto i = dups.begin(); i != dups.end(); ++i) {
+                all += (*i)->Name() + ":";
+            }
+            return all;
+        };
+        std::string err = pAllDups();
+        if (err != "")
+            throw NameError("Multiple components with identical names: " + err);
     }
 
-    void Parser::parseLinks(nts::ctls cs)
+    void Parser::parseLinks(const nts::ctls& cs, std::ifstream& fs, int c, const char** v)
     {
     }
 
     nts::ctls Parser::parseChipsets(std::ifstream& fs)
     {
         nts::ctls cs{};
+
+        for (std::string tmp; ; tmp.clear()) {
+            if (getCleanTok(fs, tmp))
+                continue;
+            if (tmp != ".chipsets")
+                throw SyntaxError("Expected `.chipsets`, found: " + tmp);
+            auto cur = mkComponent(tmp);
+            if (getCleanTok(fs, tmp))
+                throw SyntaxError("Expected `ctName`, found nothing");
+            cs.push_back(cur(tmp));
+        }
         return cs;
     }
 }
