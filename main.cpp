@@ -9,7 +9,7 @@
 #include <algorithm>
 #include "Entrypoint.hpp"
 
-void loop(nts::ctls cs)
+void loop(const nts::ctls& cs)
 {
     std::string in;
     std::cin >> in;
@@ -33,9 +33,9 @@ void loop(nts::ctls cs)
 
 int main(int c, const char **v)
 {
-    nts::ctls cs = nts::parse(c, v);
+    nts::Parser p(c, v);
     try {
-        loop(cs);
+        loop(p.get());
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 84;

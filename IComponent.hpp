@@ -19,8 +19,11 @@ namespace nts
         FALSE = false,
     };
 
+    class IComponent;
     using ctName = const std::string&;
     using ctType = const std::string&;
+    using ct = std::unique_ptr<IComponent>;
+    using ctls = std::vector<ct>;
 
     class IComponent
     {
@@ -33,10 +36,8 @@ namespace nts
             virtual void _setIn(nts::TriState a) = 0;
             virtual ctName Name() const = 0;
             virtual ctType Type() const = 0;
+            virtual ctls getLinks() const = 0;
     };
-
-    using ct = std::unique_ptr<IComponent>;
-    using ctls = std::vector<ct>;
 }
 
 #endif

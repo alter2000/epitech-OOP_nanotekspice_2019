@@ -11,10 +11,10 @@
 #include <vector>
 #include "IComponent.hpp"
 #include "Errors.hpp"
+#include "Parsing.hpp"
 
 namespace nts
 {
-    ctls parse(int c, const char** v);
     void display(const ctls& cs);
     void setInput(const ctls& cs, const std::string& in);
     TriState toState(const std::string& v);
