@@ -13,26 +13,23 @@
 
 namespace nts
 {
-    Output::Output(const std::string &name)
-	: _link(NULL), _name(name)
+    Output::Output(const std::string &name) : _link(), _name(name) {}
+
+    TriState Output::compute(size_t cur)
     {
+        if (this->_link && cur == 1)
+            return (this->_lin1k->compute());
+        return (UNDEFINED);
     }
-    
-    Tristate Output::Compute(size_t cur)
+
+    void Output::setLink(size_t pin, IComponent &component, size_t target)
     {
-	if (this->_link && cur == 1)
-	    return (this->_lin1k->compute());
-	return (UNDEFINED);
+        if (pin == 1)
+            this->_link = new SimpleLink(&component, target);
     }
-    
-    void    Output::SetLink(size_t pin, IComponent &component, size_t target)
+
+    void Output::dump() const
     {
-	if (pin == 1)
-	    this->_link = new SimpleLink(&component, target);
-    }
-    
-    void    Output::Dump() const
-    {
-	std::cout << "Output: " << this->_name << std::endl;
+        std::cout << "Output: " << this->_name << std::endl;
     }
 }
