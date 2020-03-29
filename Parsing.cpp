@@ -166,6 +166,7 @@ namespace nts
                     tmp.substr(tmp.find('\t')),
                         std::regex("^\\s+") , ""),
                         std::regex("\\s+$"), "");
-        return mkComponent(type)(name);
+        auto i = mkComponent(type)(name);
+        return i;
     }
 }

@@ -57,6 +57,11 @@ namespace nts
         //     // TODO: add rom?
         //     return [](ctName n) { return ct(new C2716(n)); };
         // }
-        return [] (ctName) { return ct(); };
+        return [f] (ctName) {
+            std::cerr << "Unimplemented: " << *f << std::endl;
+            exit(84);
+            throw ComponentError("Unimplemented: " + *f);
+            return ct();
+        };
     }
 }
