@@ -16,11 +16,12 @@ namespace nts
     class Error : public std::exception
     {
         public:
+            Error() {}
             virtual ~Error() {}
-            virtual const char* show() const noexcept;
+            virtual const char* show() const noexcept = 0;
     };
 
-    class SyntaxError: public Error
+    class SyntaxError : public Error
     {
         public:
             SyntaxError(const std::string& n = "Syntax error") : s{n} {};
@@ -30,7 +31,7 @@ namespace nts
             std::string s;
     };
 
-    class ComponentError: public Error
+    class ComponentError : public Error
     {
         public:
             ComponentError(const std::string& n = "Component error") : s{n} {};
@@ -40,7 +41,7 @@ namespace nts
             std::string s;
     };
 
-    class PinError: public Error
+    class PinError : public Error
     {
         public:
             PinError(const std::string& n = "Pin error") : s{n} {};
@@ -50,7 +51,7 @@ namespace nts
             std::string s;
     };
 
-    class LinkError: public Error
+    class LinkError : public Error
     {
         public:
             LinkError(const std::string& n = "Link error") : s{n} {};
@@ -60,7 +61,7 @@ namespace nts
             std::string s;
     };
 
-    class NameError: public Error
+    class NameError : public Error
     {
         public:
             NameError(const std::string& n = "Name error") : s{n} {};

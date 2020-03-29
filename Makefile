@@ -30,7 +30,7 @@ $(NAME): $(OBJ)
 	$(CPL) -o $(NAME) $(OBJ) $(shell find . -name '*.hpp') $(LDFLAGS)
 
 debug: $(SRC)
-	$(CPL) -o $(NAME) $(SRC) $(shell find . -name '*.hpp') $(DFLAGS) $(LDFLAGS)
+	$(DPL) $(SRC) $(shell find . -name '*.hpp') $(DFLAGS) $(LDFLAGS) -o $(NAME)
 
 clean:
 	find . -name 'vgcore.*' -delete
