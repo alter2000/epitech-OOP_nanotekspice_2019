@@ -5,33 +5,37 @@
 ## automated desc ftw
 ##
 
-SRC = $(shell find . -type f -name "*.cpp")
+SRC = $(shell find . -name "*.cpp")
 
 DFLAGS = \
 		 -fsanitize=address \
 		 -fsanitize=alignment \
 		 -fsanitize=enum \
 		 -fsanitize=undefined \
-		 -fsanitize=nullability
+		 -g
+
+		 # -fsanitize=nullability \
+
 DPL = clang++
 
 NAME = nanotekspice
 CPL = g++
-CFLAGS = -Wextra -Wall --std=c++11
+CFLAGS = -Wextra -Wall --std=c++11 -g
 
-OBJ = $(SRC:.c=.o)
+OBJ = $(SRC:.cpp=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CPL) -o $(NAME) $(OBJ) $(LDFLAGS)
+	$(CPL) -o $(NAME) $(OBJ) $(shell find . -name '*.hpp') $(LDFLAGS)
 
 debug: $(SRC)
-	$(CPL) -o $(NAME) $(SRC) $(LDFLAGS)
+	$(CPL) -o $(NAME) $(SRC) $(shell find . -name '*.hpp') $(DFLAGS) $(LDFLAGS)
 
 clean:
-	$(foreach var, $(OBJ), if [ -e $(var) ] ; then rm -f $(var) ; fi;)
-	rm -f vgcore.*
+	find . -name 'vgcore.*' -delete
+	find . -name '*.gc*' -delete
+	find . -name '*.o' -delete
 
 fclean: clean
 	rm -f $(NAME)
@@ -40,7 +44,7 @@ re:
 	$(MAKE) fclean
 	$(MAKE) all
 
-%.o: %.c
+%.o: %.cpp
 	$(CPL) $(CFLAGS) -o $@ -c $<
 
 .PHONY: all clean fclean re

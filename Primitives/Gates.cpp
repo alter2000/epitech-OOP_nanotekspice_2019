@@ -5,7 +5,7 @@
 ** automated desc ftw
 */
 
-#include "Primitives.hpp"
+#include "Gates.hpp"
 
 namespace nts
 {
@@ -17,23 +17,6 @@ namespace nts
             case FALSE:     return TRUE;
         }
         return UNDEFINED;
-    }
-
-    TriState Clock::operator()()
-    {
-        TriState r;
-
-        switch (a) {
-            case TRUE:
-                r = a;
-                a = FALSE;
-            case FALSE:
-                r = a;
-                a = TRUE;
-            case UNDEFINED:
-                return a;
-        }
-        return r;
     }
 
     TriState And::operator()(TriState a, TriState b) const

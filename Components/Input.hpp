@@ -10,7 +10,7 @@
 
 #include <string>
 #include <vector>
-#include "../Primitives.hpp"
+#include "../Primitives/Primitives.hpp"
 #include "../IComponent.hpp"
 
 namespace nts
@@ -20,16 +20,17 @@ namespace nts
         public:
             Input(const std::string &name);
             ~Input() {};
-            TriState compute(size_t pin = 1);
-            void setLink(std::size_t pin, IComponent &component, std::size_t target);
-            void dump(void) const;
             void _setIn(TriState a);
+
+            TriState compute(size_t pin = 1);
+            void setLink(std::size_t pin, ct component, std::size_t target);
+            void dump(void) const;
             ctName Name() const;
             ctType Type() const;
         private:
-            const std::string _type;
-            ctName _name;
-            ctls _link;
+            const std::string _t = "input";
+            const std::string _n;
+            TriState _val;
     };
 }
 

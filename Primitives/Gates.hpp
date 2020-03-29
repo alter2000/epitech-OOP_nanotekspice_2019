@@ -5,20 +5,13 @@
 ** automated desc ftw
 */
 
-#ifndef PRIMITIVES_HPP_
-#define PRIMITIVES_HPP_
+#ifndef GATES_HPP_
+#define GATES_HPP_
 
-#include "IComponent.hpp"
+#include "Primitives.hpp"
 
 namespace nts
 {
-    class Primitive
-    {
-        public:
-            virtual ~Primitive() {}
-            virtual TriState get() const { return UNDEFINED; };
-    };
-
     class Not : public Primitive
     {
         public:
@@ -106,39 +99,6 @@ namespace nts
             TriState b;
     };
 
-    class True : public Primitive, public IComponent
-    {
-        public:
-            True(ctName n) : n{n} {}
-            ~True() {}
-            TriState get() const { return this->operator()(); }
-            TriState operator()() const { return TRUE; }
-        private:
-            const std::string n;
-    };
-
-    class False : public Primitive, public IComponent
-    {
-        public:
-            False(ctName n) : n{n} {}
-            ~False() {}
-            TriState get() const { return this->operator()(); }
-            TriState operator()() const { return FALSE; }
-        private:
-            const std::string n;
-    };
-
-    class Clock : public Primitive, public IComponent
-    {
-        public:
-            Clock(ctName n) : n{n}, a{FALSE} {}
-            ~Clock() {}
-            TriState get() const { return a; }
-            TriState operator()();
-        private:
-            const std::string n;
-            TriState a;
-    };
 }
 
 #endif

@@ -14,7 +14,7 @@ namespace nts
     {
         ctls os;
         for (auto i = cs.begin(); i < cs.end(); ++i)
-            if ((*i)->Type() == "out") {
+            if ((*i)->Type() == "output") {
                 os.push_back(std::move(*i));
             }
         std::sort(os.begin(), os.end(), [](const ct& a, const ct& b)

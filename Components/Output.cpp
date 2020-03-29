@@ -1,35 +1,19 @@
-//
-// EPITECH PROJECT, 2020
-// EPITECH 2020
-// File description:
-// output cpp file
-//
+/*
+** EPITECH PROJECT, 2020
+** OOP_nanotekspice_2019
+** File description:
+** automated desc ftw
+*/
 
-#include <iostream>
-#include "../Primitives.hpp"
-#include "../Errors.hpp"
 #include "Output.hpp"
-#include "SimpleLinks.hpp"
 
-namespace nts
-{
-    Output::Output(const std::string &name) : _link(), _name(name) {}
+namespace nts {
+    Output::Output(const std::string &name) : _n{name}, _link{} {}
 
-    TriState Output::compute(size_t cur)
-    {
-        if (this->_link && cur == 1)
-            return (this->_lin1k->compute());
-        return (UNDEFINED);
-    }
-
-    void Output::setLink(size_t pin, IComponent &component, size_t target)
-    {
-        if (pin == 1)
-            this->_link = new SimpleLink(&component, target);
-    }
-
-    void Output::dump() const
-    {
-        std::cout << "Output: " << this->_name << std::endl;
-    }
+    void Output::setLink(std::size_t, ct component, std::size_t) { _link = component; }
+    TriState Output::compute(size_t) { return _link->compute(); };
+    void Output::dump(void) const
+    { std::cout << _n << "=" << _link->compute() << std::endl; };
+    ctName Output::Name() const { return _n; };
+    ctType Output::Type() const { return _t; };
 }

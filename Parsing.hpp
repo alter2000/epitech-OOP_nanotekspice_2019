@@ -27,6 +27,8 @@ namespace nts
             void checkLast(const nts::ctls& cs, int c, const char **v);
             void checkInputs(const nts::ctls& cs, int c, const char** v);
             void checkOutput(const nts::IComponent& i);
+            void loadLink(const ctls& cs, std::ifstream& fs, std::string tmp);
+            ct createComponent(const std::string& tmp);
     };
 }
 

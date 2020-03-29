@@ -17,7 +17,7 @@ namespace nts
     {
         public:
             virtual ~Error() {}
-            // virtual std::string show() = 0;
+            virtual const char* show() const noexcept;
     };
 
     class SyntaxError: public Error
@@ -25,6 +25,7 @@ namespace nts
         public:
             SyntaxError(const std::string& n = "Syntax error") : s{n} {};
             ~SyntaxError() {}
+            virtual const char* show() const noexcept { return s.c_str(); };
         private:
             std::string s;
     };
@@ -34,6 +35,7 @@ namespace nts
         public:
             ComponentError(const std::string& n = "Component error") : s{n} {};
             ~ComponentError() {}
+            virtual const char* show() const noexcept { return s.c_str(); };
         private:
             std::string s;
     };
@@ -43,6 +45,7 @@ namespace nts
         public:
             PinError(const std::string& n = "Pin error") : s{n} {};
             ~PinError() {}
+            virtual const char* show() const noexcept { return s.c_str(); };
         private:
             std::string s;
     };
@@ -52,6 +55,7 @@ namespace nts
         public:
             LinkError(const std::string& n = "Link error") : s{n} {};
             ~LinkError() {}
+            virtual const char* show() const noexcept { return s.c_str(); };
         private:
             std::string s;
     };
@@ -61,6 +65,7 @@ namespace nts
         public:
             NameError(const std::string& n = "Name error") : s{n} {};
             ~NameError() {}
+            virtual const char* show() const noexcept { return s.c_str(); };
         private:
             std::string s;
     };

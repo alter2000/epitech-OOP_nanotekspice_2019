@@ -6,25 +6,16 @@
 */
 
 #include <algorithm>
-#include <array>
-#include <functional>
+#include "Builders.hpp"
 #include "Components/Components.hpp"
 #include "Errors.hpp"
-#include "IComponent.hpp"
-#include "Primitives.hpp"
-
-static const std::array<std::string, 19> CPTS = {
-    "input", "output", "true", "false", "clock", "4001", "4008",
-    "4011" , "4013"  , "4017", "4030" , "4040" , "4069", "4071",
-    "4081" , "4094"  , "4514", "4801" , "2716" ,
-};
 
 namespace nts
 {
-    std::function<ct(ctName)> mkComponent(ctType t)
+    std::function<ct(std::string)> mkComponent(ctType t)
     {
         auto f = std::find(CPTS.begin(), CPTS.end(), t);
-        if (f == nullptr)
+        if (*f == "")
             throw ComponentError("Unknown component type: " + t);
         if (*f == std::string("input"))
             return [](ctName n) { return ct(new Input(n)); };
@@ -66,6 +57,6 @@ namespace nts
         //     // TODO: add rom?
         //     return [](ctName n) { return ct(new C2716(n)); };
         // }
-        return [] (ctName n) { return ct(); };
+        return [] (ctName) { return ct(); };
     }
 }

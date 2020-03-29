@@ -15,7 +15,7 @@
 
 namespace nts
 {
-    void display(const ctls& cs);
+    void display(ctls& cs);
     void setInput(const ctls& cs, const std::string& in);
     TriState toState(const std::string& v);
     TriState toState(std::size_t v);
