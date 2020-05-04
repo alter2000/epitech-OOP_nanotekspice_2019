@@ -12,7 +12,7 @@
 #include "Parsing.hpp"
 #include "Components/Components.hpp"
 
-extern const std::vector<std::string> nts::CPTS;
+extern const std::vector<nts::ctPair> nts::CPTS;
 
 namespace nts
 {
@@ -55,7 +55,9 @@ namespace nts
                 continue;
             if (tmp == ".links:")
                 break;
-            if (std::find(CPTS.begin(), CPTS.end(), tmp) != CPTS.end())
+            if (std::find_if(CPTS.begin(), CPTS.end(),
+                    [&tmp] (ctPair a) { return a.first == tmp; })
+                    != CPTS.end())
                 throw ComponentError("Component does not exist: " + tmp);
             auto cur = createComponent(tmp);
                 // throw SyntaxError("Expected `ctName`, found nothing");

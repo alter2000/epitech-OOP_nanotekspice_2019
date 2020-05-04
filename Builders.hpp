@@ -10,6 +10,7 @@
 
 #include <functional>
 #include "IComponent.hpp"
+#include "Errors.hpp"
 #include "Components/Components.hpp"
 #include "Primitives/Primitives.hpp"
 
@@ -39,7 +40,9 @@ namespace nts
             // ctPair("4514",   [] (ctName n) { return ct(new C4514(n)); }),
             // ctPair("4801",   [] (ctName n) { return ct(new C4801(n)); }),
             // ctPair("2716",   [] (ctName n) { return ct(new C2716(n)); }),
-            ctPair("", [] (ctName) { return nullptr; }),
+            ctPair("", [] (ctName n) {
+                    throw NameError("Cannot find component" + n);
+                    return ct(nullptr); }),
 };
 
 }

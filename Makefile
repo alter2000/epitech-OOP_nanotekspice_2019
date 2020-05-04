@@ -7,22 +7,22 @@
 
 SRC = $(shell find . -name "*.cpp")
 
-DFLAGS = \
-		 -fsanitize=address \
-		 -fsanitize=alignment \
-		 -fsanitize=enum \
-		 -fsanitize=undefined \
-		 -g
+DFLAGS=-Wall -Wextra --std=c++11 -g -ggdb3
+		 # -fsanitize=address \
+		 # -fsanitize=alignment \
+		 # -fsanitize=enum \
+		 # -fsanitize=undefined \
 
 		 # -fsanitize=nullability \
 
-DPL = clang++
+DPL = g++
 
 NAME = nanotekspice
 CPL = g++
-CFLAGS = -Wextra -Wall --std=c++11 -g
+CFLAGS = -Wextra -Wall --std=c++11 -g -rdynamic
 
-OBJ = $(SRC:.cpp=.o)
+DOBJ=$(SRC:.cpp=-d.o)
+OBJ=$(SRC:.cpp=.o)
 
 all: $(NAME)
 
@@ -30,7 +30,7 @@ $(NAME): $(OBJ)
 	$(CPL) -o $(NAME) $(OBJ) $(shell find . -name '*.hpp') $(LDFLAGS)
 
 debug: $(SRC)
-	$(DPL) $(SRC) $(shell find . -name '*.hpp') $(DFLAGS) $(LDFLAGS) -o $(NAME)
+	$(DPL) -o $(NAME) $(DOBJ) $(shell find . -name '*.hpp') $(LDFLAGS)
 
 clean:
 	find . -name 'vgcore.*' -delete
@@ -43,6 +43,9 @@ fclean: clean
 re:
 	$(MAKE) fclean
 	$(MAKE) all
+
+%.d.o: %.cpp
+	$(DPL) $(DFLAGS) -o $@ -c $<
 
 %.o: %.cpp
 	$(CPL) $(CFLAGS) -o $@ -c $<
